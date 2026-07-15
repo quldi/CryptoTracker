@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CryptoTracker" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowBackground">#080B11</item>
+        <item name="android:statusBarColor">#080B11</item>
+        <item name="android:navigationBarColor">#121722</item>
+        <item name="android:windowLightStatusBar">false</item> </style>
+
+    <style name="Theme.CryptoTracker.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#080B11</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">800</item>
+        <item name="postSplashScreenTheme">@style/Theme.CryptoTracker</item>
+    </style>
+</resources>

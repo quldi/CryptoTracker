@@ -1,0 +1,22 @@
+# Android Build Artifacts
+build/
+.gradle/
+
+# IDE Settings
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Local Configurations
+local.properties
+
+# OS Cache
+.DS_Store
+Thumbs.db
+
+# Android Studio temporary files
+captures/
+.externalNativeBuild/
+.cxx/
