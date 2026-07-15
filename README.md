@@ -14,6 +14,15 @@ A production-ready, highly-optimized Android application built **100% from scrat
 
 ---
 
+## Debug APK Download
+
+You can download the pre-compiled debug APK directly to test the application on a physical device or emulator:
+
+* [Download Latest Debug APK](https://github.com/quldi/CryptoTracker/releases/latest)
+
+Alternatively, if you are building the project locally from the source code, the compiled binary will be generated at the following path after running the build command:
+`app/build/outputs/apk/debug/app-debug.apk`
+
 ## VS Code IDE Ecosystem & System Tools
 
 This project was built independently without any dependencies on Android Studio, leveraging a lightweight **Visual Studio Code** extension stack to minimize memory overhead and optimize UI rendering performance up to 60 FPS:
