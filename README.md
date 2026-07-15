@@ -4,10 +4,10 @@ A production-ready, highly-optimized Android application built **100% from scrat
 
 ---
 
-## Project Preview
+## App Preview
 
 <p align="center">
-  <img src="assets/Project1.png" width="330" title="CryptoTracker Project #1" alt="CryptoTracker Screenshot">
+  <img src="assets/Project1.png" width="320" title="CryptoTracker Project #1" alt="CryptoTracker Screenshot">
   <img src="assets/Project2.png" width="320" title="CryptoTracker Project #2" alt="CryptoTracker Screenshot">
   <img src="assets/Project3.png" width="320" title="CryptoTracker Project #3" alt="CryptoTracker Screenshot">
 </p>
@@ -37,39 +37,58 @@ This project was built independently without any dependencies on Android Studio,
 
 ## Core Feature Architecture
 
-* **`TrackerScreen` (Unified Navigation Hub):** Manages high-level global routing using a declarative `Crossfade` module. Navigation is fully decoupled from legacy, heavy Fragment/Activity lifecycles to significantly optimize memory allocation.
-* **`TrendingTabContent` (High-Throughput Feed):** A render-optimized list component (LazyColumn) designed to minimize redundant recompositions. Displays a real-time spot pricing matrix integrated with custom-drawn mini sparkline trend indicators.
-* **`CryptoDetailScreen` (Interactive Skia Canvas):** Visualizes historical chart data using a hardware-accelerated custom `Canvas`. Utilizes high-precision vector calculations to split and render dynamic dual-color gradients (Green/Red) mapped directly to the baseline asset price.
-* **`CryptoWalletScreen` (Asset Valuation Matrix):** Simulates an institutional portfolio balance. Displays asset allocation percentages, verified profile badges, and automated capital transfer action docks.
-* **`CryptoBuySellScreen` (Flat-Order Execution Engine):** A flat-order spot transaction emulator entirely free from structural layout overlapping (Nested Scaffold Bug). Features rapid allocation toggles (25% to 100%), automated network fee calculations (0.1%), and market slippage tolerance indicators.
+* **TrackerScreen (Unified Navigation Hub):** Manages high-level global routing and hosts the core market view states (Trending, Buy/Sell, Wallet) using a declarative layout. Navigation is fully decoupled from legacy Fragment lifecycles.
+* **CryptoDetailScreen & SparklineGraph (Interactive Canvas):** Visualizes historical chart data using hardware-accelerated vectors inside a custom canvas (`SparklineGraph.kt`), implementing dynamic color mapping based on baseline price trends.
+* **CryptoWalletScreen (Asset Valuation Matrix):** Simulates an institutional portfolio balance. Displays asset allocation percentages, verified profile badges, and automated capital transfer action docks.
+* **CryptoBuySellScreen (Flat-Order Execution Engine):** A flat-order spot transaction emulator entirely free from structural layout overlapping. Features rapid allocation toggles (25% to 100%) and automated network fee calculations (0.1%).
+* **TrackerViewModel & TrackerUiState (UDF Engine):** Centralizes the management of reactive state flows, pushing predictable UI states downstream and handling incoming user actions asynchronously.
 
 ---
 
 ## Architectural & Directory Layout
 
-The codebase enforces strict modular separation boundaries to isolate business logic from visual framework dependencies:
+The codebase enforces strict modular separation boundaries across independent Gradle submodules:
 
-    .
-    ├── app/             # Root Application, Dependency Injection initialization, System Theme Configurations
-    ├── core/            # Shared modules, Network clients (HTTP/WebSockets), Global utility extensions
-    ├── data/            # Repository implementations, Data pipeline processing streams
-    └── feature/tracker/ # Pure UI Feature Module containing Composables, ViewModels, and UI State contracts
+```text
+.
+├── app/             # Root Application, Dependency Injection initialization, System Theme Configurations
+├── core/network/    # Low-level network configurations and anti-censorship WebSocket client engines
+├── data/            # Repository implementations and mock data processing engines
+├── domain/          # Enterprise business rules, domain entities, and abstract repository contracts
+└── feature/tracker/ # Feature module containing all Jetpack Compose UI assets and ViewModels
+```
 
-Detailed package and file distribution mapping:
+Detailed package and file distribution mapping mapped directly from the source tree:
 
-    com.cryptotracker
-    ├── domain/
-    │   └── CryptoPrice.kt                 # Central Primitive Domain Enterprise Entities
-    └── feature/tracker/
-        ├── TrackerScreen.kt               # Edge-to-Edge Main View Router & Bottom Dock Host
-        ├── CryptoBuySellScreen.kt         # Spot Transaction Execution Engine Composable
-        ├── CryptoDetailScreen.kt          # Interactive Graph Dashboard Main Panel
-        ├── CryptoWalletScreen.kt          # Wallet Asset Allocation & Account Profile Hub
-        └── components/
-            ├── BigInteractiveChartCanvas.kt # Core Skia-Layer Vector Graph Painter
-            ├── TrackerBottomNavBar.kt       # Zero-Elevation Integrated Navigation Dock Component
-            ├── NetworkGuardWrapper.kt       # Lifecycle Connection Interceptor Block
-            └── CryptoTrackerLoadingView.kt  # Adaptive Low-Overhead Shimmer Component
+```text
+CryptoTrackerAndroid
+├── app/
+│   └── src/main/java/com/cryptotracker/app/
+├── core/network/
+│   └── src/main/java/com/cryptotracker/core/network/
+│       └── CryptoWebSocketClient.kt
+├── data/
+│   └── src/main/java/com/cryptotracker/data/
+│       └── CryptoRepositoryImpl.kt
+├── domain/
+│   └── src/main/java/com/cryptotracker/domain/
+│       ├── CryptoFilter.kt
+│       ├── CryptoPrice.kt
+│       └── CryptoRepository.kt
+└── feature/tracker/
+    └── src/main/java/com/cryptotracker/feature/tracker/
+        ├── components/
+        │   ├── NetworkGuardWrapper.kt
+        │   └── TrackerUiComponents.kt
+        ├── graph/
+        │   └── SparklineGraph.kt
+        ├── CryptoBuySellScreen.kt
+        ├── CryptoDetailScreen.kt
+        ├── CryptoWalletScreen.kt
+        ├── TrackerScreen.kt
+        ├── TrackerUiState.kt
+        └── TrackerViewModel.kt
+```
 
 ---
 
@@ -96,11 +115,17 @@ Execute the following unified automation chain command inside the integrated VS 
 ### Windows (PowerShell)
 ```powershell
 .\gradlew.bat clean assembleDebug ; adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
 ### macOS / Linux (Terminal)
+```bash
 ./gradlew clean assembleDebug && adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
 
-### Production Roadmap
-[ ] Migrate current simulated random data pipelines into live low-latency streaming feeds via Binance WebSockets API integration.
-[ ] Implement secure offline persistence caching protocols leveraging a reactive Room Database framework layer.
-[ ] Transition global route configurations into explicit type-safe cross-module paths via native Compose Navigation v2.x.
+---
+
+## Production Roadmap
+
+- [ ] Migrate current simulated random data pipelines into live low-latency streaming feeds via Binance WebSockets API integration.
+- [ ] Implement secure offline persistence caching protocols leveraging a reactive Room Database framework layer.
+- [ ] Transition global route configurations into explicit type-safe cross-module paths via native Compose Navigation v2.x.
